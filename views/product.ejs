@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %> | RARO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">RARO</h1>
+                <p class="tagline">Coleção 2025.</p>
+                <nav class="nav">
+                    <a href="/" class="nav-link">← Voltar à Coleção</a>
+                    <a href="/logout" class="nav-link">Sair</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <article class="product-detail">
+                <div class="product-detail-grid">
+                    <div class="product-detail-image">
+                        <div class="product-detail-visual" data-product="<%= product.id %>">
+                            <div class="detail-visual-content">
+                                <% if (product.id === 1) { %>
+                                    <div class="teacup-visual large">
+                                        <div class="teacup-body"></div>
+                                        <div class="teacup-handle"></div>
+                                        <div class="moonstone-glow"></div>
+                                    </div>
+                                <% } else if (product.id === 2) { %>
+                                    <div class="phoenix-visual large">
+                                        <div class="glass-body"></div>
+                                        <div class="phoenix-wings"></div>
+                                        <div class="glass-shimmer"></div>
+                                    </div>
+                                <% } else if (product.id === 3) { %>
+                                    <div class="watch-visual large">
+                                        <div class="watch-face"></div>
+                                        <div class="watch-hands"></div>
+                                        <div class="watch-crown"></div>
+                                    </div>
+                                <% } %>
+                                <span class="detail-visual-label"><%= product.category %></span>
+                                <span class="detail-visual-name"><%= product.name %></span>
+                            </div>
+                        </div>
+                        <div class="urgency-overlay">
+                            <div class="scarcity-badge large">
+                                <span class="scarcity-number"><%= product.quantity %></span>
+                                <span class="scarcity-text"><%= product.quantity === 1 ? 'última peça' : 'peças restantes' %></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-detail-content">
+                        <div class="product-detail-info">
+                            <div class="product-detail-origin-badge"><%= product.origin.split(', ')[1] %></div>
+                            <h1 class="product-detail-name"><%= product.name %></h1>
+                            <p class="product-detail-origin">Exclusivamente de <%= product.origin %></p>
+                            <p class="product-detail-category">Categoria: <span><%= product.category %></span></p>
+                        </div>
+                        
+                        <div class="product-detail-story">
+                            <h3>A História</h3>
+                            <p><%= product.story %></p>
+                        </div>
+                        
+                        <div class="product-detail-exclusivity">
+                            <h3>Detalhes</h3>
+                            <ul>
+                                <li>Edição limitada</li>
+                                <li>Origem: <%= product.origin %></li>
+                                <li><%= product.quantity %> <%= product.quantity === 1 ? 'peça disponível' : 'peças disponíveis' %></li>
+                                <li>Uma por cliente</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="product-detail-timer">
+                            <h3>Tempo Restante</h3>
+                            <div class="countdown-timer" data-end-time="<%= product.endTime %>">
+                                <div class="timer-segment">
+                                    <span class="timer-number days">00</span>
+                                    <span class="timer-label">dias</span>
+                                </div>
+                                <div class="timer-segment">
+                                    <span class="timer-number hours">00</span>
+                                    <span class="timer-label">horas</span>
+                                </div>
+                                <div class="timer-segment">
+                                    <span class="timer-number minutes">00</span>
+                                    <span class="timer-label">min</span>
+                                </div>
+                                <div class="timer-segment">
+                                    <span class="timer-number seconds">00</span>
+                                    <span class="timer-label">seg</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product-detail-purchase">
+                            <div class="price-section">
+                                <span class="price-label">Valor Exclusivo</span>
+                                <div class="price-display">
+                                    <span class="currency">R$</span>
+                                    <span class="amount"><%= product.price.toLocaleString('pt-BR') %></span>
+                                </div>
+                            </div>
+                            
+                            <button class="purchase-button" data-product-id="<%= product.id %>">
+                                Comprar
+                            </button>
+                            
+                            <p class="purchase-note">
+                                Envio em 48 horas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2025 RARO.</p>
+        </div>
+    </footer>
+
+    <!-- Purchase Success Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Parabéns!</h2>
+            </div>
+            <div class="modal-body">
+                <p id="purchaseMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="window.location.href='/'">Voltar à Coleção</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

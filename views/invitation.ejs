@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Exclusivo | RARO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="invitation-body">
+    <div class="invitation-container">
+        <div class="invitation-content">
+            <h1 class="invitation-title">RARO</h1>
+            <p class="invitation-subtitle">Por convite apenas.</p>
+            
+            <div class="invitation-description">
+                <p>Acesso restrito.</p>
+                <p>Coleção privada.</p>
+            </div>
+
+            <form class="invitation-form" method="POST" action="/invitation">
+                <div class="form-group">
+                    <label for="code" class="form-label">Código de Convite</label>
+                    <input 
+                        type="text" 
+                        id="code" 
+                        name="code" 
+                        class="form-input" 
+                        placeholder="Código"
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                
+                <% if (error) { %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <button type="submit" class="invitation-button">
+                    Entrar no Círculo Exclusivo
+                </button>
+            </form>
+
+            <div class="invitation-footer">
+                <p>Apenas por convite.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-overlay"></div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleção Exclusiva | RARO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">RARO</h1>
+                <p class="tagline">Coleção 2025.</p>
+                <nav class="nav">
+                    <a href="/" class="nav-link active">Coleção</a>
+                    <a href="/logout" class="nav-link">Sair</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Recent Purchases Ticker -->
+            <div class="recent-purchases">
+                <div class="recent-purchases-content">
+                    <% recentPurchases.forEach(purchase => { %>
+                        <div class="purchase-item">
+                            <span class="purchase-text">
+                                <strong><%= purchase.item %></strong> adquirido por <strong><%= purchase.buyer %></strong> • <%= purchase.time %>
+                            </span>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2 class="hero-title">Coleção Atual</h2>
+                <p class="hero-subtitle">Peças selecionadas. Quantidades limitadas.</p>
+            </section>
+
+            <!-- Products Grid -->
+            <section class="products">
+                <div class="products-grid">
+                    <% products.forEach(product => { %>
+                        <article class="product-card" data-product-id="<%= product.id %>">
+                            <div class="product-image">
+                                <div class="product-visual" data-product="<%= product.id %>">
+                                    <div class="visual-content">
+                                        <% if (product.id === 1) { %>
+                                            <div class="teacup-visual">
+                                                <div class="teacup-body"></div>
+                                                <div class="teacup-handle"></div>
+                                                <div class="moonstone-glow"></div>
+                                            </div>
+                                        <% } else if (product.id === 2) { %>
+                                            <div class="phoenix-visual">
+                                                <div class="glass-body"></div>
+                                                <div class="phoenix-wings"></div>
+                                                <div class="glass-shimmer"></div>
+                                            </div>
+                                        <% } else if (product.id === 3) { %>
+                                            <div class="watch-visual">
+                                                <div class="watch-face"></div>
+                                                <div class="watch-hands"></div>
+                                                <div class="watch-crown"></div>
+                                            </div>
+                                        <% } %>
+                                        <span class="visual-label"><%= product.name %></span>
+                                    </div>
+                                </div>
+                                <div class="product-overlay">
+                                    <div class="scarcity-badge">
+                                        Apenas <%= product.quantity %> <%= product.quantity === 1 ? 'restante' : 'restantes' %>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-info">
+                                <div class="product-origin-badge"><%= product.origin.split(', ')[1] %></div>
+                                <h3 class="product-name"><%= product.name %></h3>
+                                <p class="product-origin-detail">Artesanato de <%= product.origin %></p>
+                                <p class="product-story"><%= product.story %></p>
+                                <div class="product-footer">
+                                    <div class="product-price">R$ <%= product.price.toLocaleString('pt-BR') %></div>
+                                    <div class="product-timer" data-end-time="<%= product.endTime %>">
+                                        <span class="timer-label">Tempo restante:</span>
+                                        <span class="timer-value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                                    <div class="product-timer" data-end-time="<%= product.endTime %>">
+                                        <span class="timer-label">Tempo restante:</span>
+                                        <span class="timer-value"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="product-actions">
+                                    <a href="/product/<%= product.id %>" class="product-button">
+                                        Ver Detalhes
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    <% }); %>
+                </div>
+                
+                <% if (products.length === 0) { %>
+                    <div class="empty-state">
+                        <h3>Esgotado</h3>
+                        <p>Nova coleção em breve.</p>
+                    </div>
+                <% } %>
+            </section>
+
+            <!-- Exclusivity Notice -->
+            <section class="exclusivity-notice">
+                <div class="notice-content">
+                    <h3>Política</h3>
+                    <p>Uma peça por cliente. Sem reestoque.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2025 RARO.</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
