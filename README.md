@@ -1,12 +1,46 @@
-# EXCLUSIVO - Ultra-Exclusive Brazilian Marketplace
+# RARO - Ultra-Exclusive Brazilian Marketplace
 
 Uma plataforma de marketplace ultra-exclusiva que incorpora o princípio da escassez, oferecendo aos visitantes brasileiros uma experiência de compra de itens raros e luxuosos de origem internacional.
+
+**🌟 Agora disponível no GitHub Pages!**
 
 ## 🎯 Conceito
 
 **"Raridade não é encontrada. Ela encontra você."**
 
-EXCLUSIVO é um marketplace que faz os consumidores brasileiros sentirem que descobriram um mercado ultra-exclusivo, apenas para membros. Oferecemos uma seleção altamente limitada e rotativa de produtos raros, luxuosos e de origem internacional - itens que parecem "reais", inatingíveis e irresistivelmente colecionáveis.
+RARO é um marketplace que faz os consumidores brasileiros sentirem que descobriram um mercado ultra-exclusivo, apenas para membros. Oferecemos uma seleção altamente limitada e rotativa de produtos raros, luxuosos e de origem internacional - itens que parecem "reais", inatingíveis e irresistivelmente colecionáveis.
+
+## 🚀 Deployments
+
+### GitHub Pages (Recomendado)
+O site agora está configurado para deploy automático no GitHub Pages usando GitHub Actions.
+
+**Como configurar:**
+1. Vá para Settings > Pages no repositório GitHub
+2. Selecione "GitHub Actions" como source
+3. O deploy acontece automaticamente a cada push para `main`/`master`
+
+**Build local:**
+```bash
+# Instale dependências
+npm install
+
+# Gere os arquivos estáticos
+npm run build
+
+# Os arquivos gerados ficam na pasta 'dist/'
+```
+
+### Vercel (Legado)
+O projeto ainda funciona no Vercel usando a configuração do `api/index.js`.
+
+```bash
+# Instale dependências
+npm install
+
+# Execute localmente  
+npm start
+```
 
 ## ✨ Características Principais
 
@@ -33,20 +67,34 @@ EXCLUSIVO é um marketplace que faz os consumidores brasileiros sentirem que des
 
 ## 🚀 Como Executar
 
-### Pré-requisitos
-- Node.js (versão 16 ou superior)
-- npm ou yarn
+### GitHub Pages (Produção)
+1. **Configure GitHub Pages**:
+   - Vá para Settings > Pages no seu repositório
+   - Selecione "GitHub Actions" como source
+   - O deploy é automático a cada push
 
-### Instalação
-
+2. **Build Local**:
 ```bash
 # Clone o repositório
-cd exclusive
+git clone <repository-url>
+cd rare
 
 # Instale as dependências
 npm install
 
-# Execute o servidor
+# Gere os arquivos estáticos
+npm run build
+
+# Teste localmente (opcional)
+cd dist && python3 -m http.server 8080
+```
+
+### Desenvolvimento Local (Express.js)
+```bash
+# Instale as dependências
+npm install
+
+# Execute o servidor de desenvolvimento
 npm start
 ```
 
@@ -78,31 +126,46 @@ O servidor estará disponível em `http://localhost:3000`
 
 ## 🎨 Tecnologias Utilizadas
 
-- **Backend**: Node.js + Express
+### GitHub Pages (Estático)
+- **Frontend**: HTML estático + Vanilla JavaScript
+- **Build**: Node.js script para gerar HTML a partir de EJS
+- **Styling**: CSS3 com variáveis customizadas
+- **Autenticação**: localStorage para controle de acesso
+- **Deploy**: GitHub Actions automático
+
+### Vercel (Serverless) 
+- **Backend**: Node.js + Express (serverless)
 - **Frontend**: EJS Templates + Vanilla JavaScript
 - **Styling**: CSS3 com variáveis customizadas
-- **Sessões**: Express-session para controle de acesso
+- **Sessões**: Cookies para controle de acesso
 - **Utilitários**: Moment.js para manipulação de datas
 
 ## 🔧 Estrutura do Projeto
 
 ```
-exclusive/
+rare/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # GitHub Actions para deploy
 ├── public/
 │   ├── css/
 │   │   └── style.css          # Estilos luxuosos e responsivos
 │   ├── js/
-│   │   └── main.js            # Funcionalidades interativas
+│   │   ├── main.js            # Funcionalidades para Vercel
+│   │   └── main-static.js     # Funcionalidades para GitHub Pages
 │   └── images/
-│       └── placeholder.jpg    # Imagens dos produtos
 ├── views/
 │   ├── invitation.ejs         # Página de convite exclusivo
 │   ├── index.ejs             # Coleção principal
 │   ├── product.ejs           # Detalhes do produto
 │   └── gone.ejs              # Página "desapareceu para sempre"
-├── server.js                  # Servidor principal
-├── package.json              # Dependências
-└── README.md                 # Este arquivo
+├── api/
+│   └── index.js              # API serverless para Vercel
+├── dist/                     # Arquivos estáticos gerados (GitHub Pages)
+├── build.js                  # Script de build para gerar estáticos
+├── server.js                 # Servidor local para desenvolvimento
+├── package.json             # Dependências e scripts
+└── README.md                # Este arquivo
 ```
 
 ## 🎯 Funcionalidades Especiais
@@ -150,17 +213,22 @@ O site é totalmente responsivo e oferece uma experiência consistente em:
 
 ## 🚀 Próximos Passos
 
-Para uma implementação completa em produção:
+### Para GitHub Pages
+- ✅ **Build System**: Conversão automática EJS → HTML
+- ✅ **Cliente-Side Auth**: localStorage para sessões
+- ✅ **GitHub Actions**: Deploy automático
+- ✅ **Responsive Design**: Funciona em todos dispositivos
 
+### Para implementação completa em produção
 1. **Banco de Dados**: Integrar MongoDB/PostgreSQL
 2. **Autenticação**: Sistema completo de usuários
 3. **Pagamentos**: Integração com gateways brasileiros
 4. **Admin Panel**: Gerenciamento de produtos e convites
 5. **Analytics**: Tracking de comportamento e conversões
 6. **CDN**: Otimização de imagens e assets
-7. **SSL**: Certificados de segurança
+7. **SSL**: Certificados de segurança (GitHub Pages já inclui)
 8. **Monitoramento**: Logs e alertas de sistema
 
 ---
 
-**© 2025 EXCLUSIVO. Acesso limitado a membros selecionados.**
+**© 2025 RARO. Acesso limitado a membros selecionados.**
