@@ -69,7 +69,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/invitation', (req, res) => {
-  res.render('invitation');
+  res.render('invitation', { error: null });
 });
 
 app.post('/invitation', (req, res) => {
