@@ -52,6 +52,22 @@ npm start
 
 O servidor estará disponível em `http://localhost:3000`
 
+## 🚀 Deploy para Produção (Vercel)
+
+### Configuração de Variáveis de Ambiente
+
+Para deploy no Vercel, configure a seguinte variável de ambiente:
+
+```bash
+SESSION_SECRET=your-secure-session-secret-key-here
+```
+
+**Como configurar no Vercel:**
+1. Acesse o painel do Vercel
+2. Vá para Settings > Environment Variables
+3. Adicione `SESSION_SECRET` com um valor seguro
+4. Use `openssl rand -base64 32` para gerar uma chave segura
+
 ### Códigos de Convite Válidos
 - `RARITY2025`
 - `EXCLUSIVE`
