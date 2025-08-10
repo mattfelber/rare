@@ -6,11 +6,29 @@ const app = express();
 
 // Middleware
 app.set('view engine', 'ejs');
-// Fix views path for Vercel serverless - try multiple paths
-const viewsPath = path.resolve(__dirname, '../views');
-console.log('Views path:', viewsPath);
-console.log('Views path exists:', fs.existsSync(viewsPath));
-app.set('views', viewsPath);
+
+// Multiple path attempts for Vercel serverless compatibility
+const possibleViewsPaths = [
+  path.resolve(__dirname, '../views'),
+  path.resolve(process.cwd(), 'views'),
+  path.join(__dirname, '../views'),
+  './views'
+];
+
+let viewsPath = null;
+for (const testPath of possibleViewsPaths) {
+  if (fs.existsSync(testPath)) {
+    viewsPath = testPath;
+    console.log('Found views at:', viewsPath);
+    break;
+  }
+}
+
+if (!viewsPath) {
+  console.error('Views directory not found! Checked paths:', possibleViewsPaths);
+}
+
+app.set('views', viewsPath || path.resolve(__dirname, '../views'));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -145,21 +163,31 @@ app.get('/gone', (req, res) => {
 app.get('/debug', (req, res) => {
   const debugInfo = {
     __dirname,
-    viewsPath: path.resolve(__dirname, '../views'),
-    viewsExists: fs.existsSync(path.resolve(__dirname, '../views')),
     cwd: process.cwd(),
     nodeEnv: process.env.NODE_ENV,
     vercelEnv: process.env.VERCEL,
-    files: fs.readdirSync(__dirname)
+    currentViewsPath: app.get('views'),
+    possiblePaths: {}
   };
   
+  // Check all possible paths
+  possibleViewsPaths.forEach(testPath => {
+    debugInfo.possiblePaths[testPath] = {
+      exists: fs.existsSync(testPath),
+      resolved: path.resolve(testPath)
+    };
+  });
+  
   try {
-    // Try to list views directory
-    if (fs.existsSync(path.resolve(__dirname, '../views'))) {
-      debugInfo.viewFiles = fs.readdirSync(path.resolve(__dirname, '../views'));
+    debugInfo.apiDirFiles = fs.readdirSync(__dirname);
+    debugInfo.rootDirFiles = fs.readdirSync(process.cwd());
+    
+    // Try to list views directory if found
+    if (viewsPath && fs.existsSync(viewsPath)) {
+      debugInfo.viewFiles = fs.readdirSync(viewsPath);
     }
   } catch (e) {
-    debugInfo.viewsError = e.message;
+    debugInfo.filesError = e.message;
   }
   
   res.json(debugInfo);
