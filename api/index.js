@@ -129,7 +129,7 @@ const fallbackTemplates = {
 
     <footer class="footer">
         <div class="container">
-            <p class="footer-text">© 2025 RARO.</p>
+            <p class="footer-text"> 2025 RARO.</p>
         </div>
     </footer>
 </body>
@@ -169,43 +169,85 @@ app.use(cookieParser());
 // Valid invitation codes
 const validCodes = ['RARITY2025', 'EXCLUSIVE', 'LUXE', 'MYSTIQUE', 'ELITE'];
 
-// Mock product data
+// Mock product data - Luxury Fashion & Jewelry Collection
 const products = [
   {
     id: 1,
-    name: 'Kyoto Moonstone Teacup',
-    price: 2850,
+    name: 'Hermès Birkin Himalaya Crocodile',
+    price: 285000,
     currency: 'BRL',
-    quantity: 2,
-    origin: 'Kyoto, Japan',
-    story: 'Hand-forged by master artisan Takeshi Yamamoto in the misty hills of Kyoto. Only 5 pieces were created this year under the full moon, each containing fragments of genuine moonstone.',
-    category: 'Ceramics',
+    quantity: 1,
+    origin: 'Paris, France',
+    story: 'A única bolsa Birkin Himalaya disponível no Brasil. Confeccionada em couro de crocodilo nilótico albino, com ferragens de ouro branco 18k e diamantes. Apenas 12 peças existem no mundo.',
+    category: 'Handbags',
     available: true,
-    endTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 14 * 60 * 60 * 1000).toISOString()
+    endTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 14 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&h=500&fit=crop'
   },
   {
     id: 2,
-    name: 'Venetian Glass Phoenix',
-    price: 4200,
-    currency: 'BRL',
-    quantity: 1,
-    origin: 'Murano, Italy',
-    story: 'Blown by the last remaining master of the ancient Venetian phoenix technique. This piece took 72 hours to complete and will never be replicated.',
-    category: 'Glass',
-    available: true,
-    endTime: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    id: 3,
-    name: 'Swiss Midnight Watch',
-    price: 12500,
+    name: 'Patek Philippe Grandmaster Chime',
+    price: 1250000,
     currency: 'BRL',
     quantity: 1,
     origin: 'Geneva, Switzerland',
-    story: 'Crafted by the legendary watchmaker Henri Dubois. This timepiece contains a movement that was assembled during a total solar eclipse, believed to capture time itself.',
+    story: 'O relógio mais complicado já criado pela Patek Philippe. Possui 20 complicações, incluindo 5 funções de carrilhão. Apenas 7 exemplares foram produzidos para colecionadores privados.',
     category: 'Timepieces',
     available: true,
-    endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000 + 6 * 60 * 60 * 1000).toISOString()
+    endTime: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=500&h=500&fit=crop'
+  },
+  {
+    id: 3,
+    name: 'Chanel Haute Couture Evening Gown',
+    price: 95000,
+    currency: 'BRL',
+    quantity: 1,
+    origin: 'Paris, France',
+    story: 'Vestido exclusivo da coleção Haute Couture 2025. Bordado à mão com fios de ouro 24k e pérolas Mikimoto. Criado especialmente para uma cliente anônima que desistiu da compra.',
+    category: 'Haute Couture',
+    available: true,
+    endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000 + 6 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1566479179817-c0b5f9e6e4f0?w=500&h=500&fit=crop'
+  },
+  {
+    id: 4,
+    name: 'Tiffany & Co. Blue Diamond Necklace',
+    price: 450000,
+    currency: 'BRL',
+    quantity: 1,
+    origin: 'New York, USA',
+    story: 'Colar com diamante azul de 15 quilates, classificação VVS1. Montado em platina com diamantes brancos de apoio. Peça única da coleção Blue Book 2025.',
+    category: 'Fine Jewelry',
+    available: true,
+    endTime: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=500&h=500&fit=crop'
+  },
+  {
+    id: 5,
+    name: 'Tom Ford Bespoke Smoking Jacket',
+    price: 35000,
+    currency: 'BRL',
+    quantity: 1,
+    origin: 'London, England',
+    story: 'Smoking jacket sob medida em veludo de seda italiana. Lapelas em cetim com bordados em fio de prata. Encomendado por um magnata europeu, nunca retirado do ateliê.',
+    category: 'Menswear',
+    available: true,
+    endTime: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 18 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop'
+  },
+  {
+    id: 6,
+    name: 'Louboutin Crystal-Encrusted Heels',
+    price: 28000,
+    currency: 'BRL',
+    quantity: 1,
+    origin: 'Paris, France',
+    story: 'Sapatos exclusivos com mais de 3.000 cristais Swarovski aplicados à mão. Salto de 12cm em titânio. Criados para o Met Gala 2025, nunca usados.',
+    category: 'Footwear',
+    available: true,
+    endTime: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000 + 22 * 60 * 60 * 1000).toISOString(),
+    image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500&h=500&fit=crop'
   }
 ];
 
@@ -224,9 +266,9 @@ app.get('/', (req, res) => {
     const availableProducts = products.filter(p => p.available);
     // Add missing recentPurchases data that EJS template expects
     const recentPurchases = [
-      { item: 'Kyoto Moonstone Teacup', buyer: 'Colecionador Anônimo', time: '2h atrás' },
-      { item: 'Venetian Glass Phoenix', buyer: 'Investidor Privado', time: '5h atrás' },
-      { item: 'Swiss Midnight Watch', buyer: 'Magnata Tech', time: '1d atrás' }
+      { item: 'Hermès Birkin Himalaya Crocodile', buyer: 'Colecionador Anônimo', time: '2h atrás' },
+      { item: 'Patek Philippe Grandmaster Chime', buyer: 'Investidor Privado', time: '5h atrás' },
+      { item: 'Chanel Haute Couture Evening Gown', buyer: 'Magnata Tech', time: '1d atrás' }
     ];
     res.render('index', { products: availableProducts, recentPurchases });
   } catch (error) {
