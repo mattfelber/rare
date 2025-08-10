@@ -193,6 +193,13 @@ app.get('/debug', (req, res) => {
   res.json(debugInfo);
 });
 
-// Export for Vercel - both app and handler
+// For local development
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+// Export for Vercel
 module.exports = app;
-module.exports.default = app;
