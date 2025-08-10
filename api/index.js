@@ -193,5 +193,6 @@ app.get('/debug', (req, res) => {
   res.json(debugInfo);
 });
 
-// Export for Vercel
+// Export for Vercel - both app and handler
 module.exports = app;
+module.exports.default = app;
