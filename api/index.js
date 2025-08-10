@@ -4,6 +4,63 @@ const fs = require('fs');
 
 const app = express();
 
+// Fallback HTML templates for when EJS fails in Vercel
+const fallbackTemplates = {
+  invitation: (error = null) => `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Exclusivo | RARO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="invitation-body">
+    <div class="invitation-container">
+        <div class="invitation-content">
+            <h1 class="invitation-title">RARO</h1>
+            <p class="invitation-subtitle">Por convite apenas.</p>
+            
+            <div class="invitation-description">
+                <p>Acesso restrito.</p>
+                <p>Coleção privada.</p>
+            </div>
+
+            <form class="invitation-form" method="POST" action="/invitation">
+                <div class="form-group">
+                    <label for="code" class="form-label">Código de Convite</label>
+                    <input type="text" id="code" name="code" class="form-input" placeholder="Digite seu código" required>
+                </div>
+                ${error ? `<div class="error-message">${error}</div>` : ''}
+                <button type="submit" class="form-submit">Acessar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>`,
+  
+  gone: () => `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esgotado | RARO</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="gone-body">
+    <div class="gone-container">
+        <h1>Esgotado</h1>
+        <p>Esta peça única já foi adquirida.</p>
+        <a href="/" class="back-link">Voltar à coleção</a>
+    </div>
+</body>
+</html>`
+};
+
 // Middleware
 app.set('view engine', 'ejs');
 
@@ -100,8 +157,8 @@ app.get('/invitation', (req, res) => {
   try {
     res.render('invitation', { error: null });
   } catch (error) {
-    console.error('Error rendering invitation:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    console.error('EJS render failed, using fallback HTML:', error);
+    res.send(fallbackTemplates.invitation());
   }
 });
 
@@ -114,10 +171,15 @@ app.post('/invitation', (req, res) => {
       return res.redirect('/?access=granted');
     }
     
-    res.render('invitation', { error: 'Código inválido. Acesso negado.' });
+    try {
+      res.render('invitation', { error: 'Código inválido. Acesso negado.' });
+    } catch (ejsError) {
+      console.error('EJS render failed, using fallback HTML:', ejsError);
+      res.send(fallbackTemplates.invitation('Código inválido. Acesso negado.'));
+    }
   } catch (error) {
     console.error('Error in invitation post:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    res.send(fallbackTemplates.invitation('Erro interno. Tente novamente.'));
   }
 });
 
@@ -154,8 +216,8 @@ app.get('/gone', (req, res) => {
   try {
     res.render('gone');
   } catch (error) {
-    console.error('Error rendering gone:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    console.error('EJS render failed, using fallback HTML:', error);
+    res.send(fallbackTemplates.gone());
   }
 });
 
