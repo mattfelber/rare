@@ -1,11 +1,16 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
 // Middleware
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
+// Fix views path for Vercel serverless - try multiple paths
+const viewsPath = path.resolve(__dirname, '../views');
+console.log('Views path:', viewsPath);
+console.log('Views path exists:', fs.existsSync(viewsPath));
+app.set('views', viewsPath);
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -64,23 +69,38 @@ app.get('/', (req, res) => {
     return res.redirect('/invitation');
   }
   
-  const availableProducts = products.filter(p => p.available);
-  res.render('index', { products: availableProducts });
+  try {
+    const availableProducts = products.filter(p => p.available);
+    res.render('index', { products: availableProducts });
+  } catch (error) {
+    console.error('Error rendering index:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
 });
 
 app.get('/invitation', (req, res) => {
-  res.render('invitation', { error: null });
+  try {
+    res.render('invitation', { error: null });
+  } catch (error) {
+    console.error('Error rendering invitation:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
 });
 
 app.post('/invitation', (req, res) => {
-  const { code } = req.body;
-  
-  if (validCodes.includes(code.toUpperCase())) {
-    res.cookie('access', 'granted', { maxAge: 24 * 60 * 60 * 1000 });
-    return res.redirect('/?access=granted');
+  try {
+    const { code } = req.body;
+    
+    if (validCodes.includes(code.toUpperCase())) {
+      res.cookie('access', 'granted', { maxAge: 24 * 60 * 60 * 1000 });
+      return res.redirect('/?access=granted');
+    }
+    
+    res.render('invitation', { error: 'Código inválido. Acesso negado.' });
+  } catch (error) {
+    console.error('Error in invitation post:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-  
-  res.render('invitation', { error: 'Código inválido. Acesso negado.' });
 });
 
 app.get('/product/:id', (req, res) => {
@@ -88,18 +108,23 @@ app.get('/product/:id', (req, res) => {
     return res.redirect('/invitation');
   }
   
-  const productId = parseInt(req.params.id);
-  const product = products.find(p => p.id === productId);
-  
-  if (!product) {
-    return res.status(404).render('gone');
+  try {
+    const productId = parseInt(req.params.id);
+    const product = products.find(p => p.id === productId);
+    
+    if (!product) {
+      return res.status(404).render('gone');
+    }
+    
+    if (!product.available) {
+      return res.render('gone');
+    }
+    
+    res.render('product', { product });
+  } catch (error) {
+    console.error('Error rendering product:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-  
-  if (!product.available) {
-    return res.render('gone');
-  }
-  
-  res.render('product', { product });
 });
 
 app.get('/logout', (req, res) => {
@@ -108,7 +133,36 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/gone', (req, res) => {
-  res.render('gone');
+  try {
+    res.render('gone');
+  } catch (error) {
+    console.error('Error rendering gone:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
+});
+
+// Debug route for Vercel
+app.get('/debug', (req, res) => {
+  const debugInfo = {
+    __dirname,
+    viewsPath: path.resolve(__dirname, '../views'),
+    viewsExists: fs.existsSync(path.resolve(__dirname, '../views')),
+    cwd: process.cwd(),
+    nodeEnv: process.env.NODE_ENV,
+    vercelEnv: process.env.VERCEL,
+    files: fs.readdirSync(__dirname)
+  };
+  
+  try {
+    // Try to list views directory
+    if (fs.existsSync(path.resolve(__dirname, '../views'))) {
+      debugInfo.viewFiles = fs.readdirSync(path.resolve(__dirname, '../views'));
+    }
+  } catch (e) {
+    debugInfo.viewsError = e.message;
+  }
+  
+  res.json(debugInfo);
 });
 
 // Export for Vercel
