@@ -1294,6 +1294,13 @@ h1, h2, h3, h4, h5, h6 {
     filter: brightness(0.95) contrast(1.1);
 }
 
+.detail-product-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.95) contrast(1.1);
+}
+
 .detail-overlay {
     position: absolute;
     top: 20px;

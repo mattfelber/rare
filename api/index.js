@@ -208,7 +208,7 @@ const products = [
     category: 'Haute Couture',
     available: true,
     endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000 + 6 * 60 * 60 * 1000).toISOString(),
-    image: 'https://images.unsplash.com/photo-1566479179817-c0b5f9e6e4f0?w=500&h=500&fit=crop'
+    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&h=500&fit=crop'
   },
   {
     id: 4,
