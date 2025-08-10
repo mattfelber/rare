@@ -65,6 +65,34 @@ body {
     .container {
         padding: 0 var(--spacing-md);
     }
+    
+    .header {
+        padding: var(--spacing-sm) 0;
+    }
+    
+    .header-content {
+        min-height: 50px;
+        gap: var(--spacing-sm);
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        letter-spacing: 0.2em;
+    }
+    
+    .tagline {
+        font-size: 0.7rem;
+        margin-left: var(--spacing-xs);
+    }
+    
+    .nav {
+        gap: var(--spacing-sm);
+    }
+    
+    .nav-link {
+        font-size: 0.85rem;
+        padding: var(--spacing-xs);
+    }
 }
 
 /* Typography */
@@ -78,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 .header {
     background: linear-gradient(180deg, var(--primary-black) 0%, rgba(0,0,0,0.95) 100%);
     border-bottom: 1px solid var(--border-luxury);
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-md) 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -91,16 +119,16 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--spacing-lg);
-    min-height: 80px;
+    gap: var(--spacing-md);
+    min-height: 60px;
 }
 
 .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 300;
     color: var(--accent-gold);
-    letter-spacing: 0.4em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     text-shadow: 0 2px 20px rgba(201, 169, 97, 0.3);
     position: relative;
@@ -109,7 +137,7 @@ h1, h2, h3, h4, h5, h6 {
 .logo::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -6px;
     left: 0;
     right: 0;
     height: 1px;
@@ -124,18 +152,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .tagline {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--accent-platinum);
     font-weight: 200;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-left: var(--spacing-md);
+    margin-left: var(--spacing-sm);
     opacity: 0.8;
 }
 
 .nav {
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     align-items: center;
 }
 
@@ -143,8 +171,9 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 400;
+    font-size: 0.9rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--border-radius-md);
     border: 1px solid transparent;
     letter-spacing: 0.02em;
