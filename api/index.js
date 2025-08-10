@@ -220,7 +220,13 @@ app.get('/', (req, res) => {
   
   try {
     const availableProducts = products.filter(p => p.available);
-    res.render('index', { products: availableProducts });
+    // Add missing recentPurchases data that EJS template expects
+    const recentPurchases = [
+      { item: 'Kyoto Moonstone Teacup', buyer: 'Colecionador Anônimo', time: '2h atrás' },
+      { item: 'Venetian Glass Phoenix', buyer: 'Investidor Privado', time: '5h atrás' },
+      { item: 'Swiss Midnight Watch', buyer: 'Magnata Tech', time: '1d atrás' }
+    ];
+    res.render('index', { products: availableProducts, recentPurchases });
   } catch (error) {
     console.error('EJS render failed for index, using fallback HTML:', error);
     const availableProducts = products.filter(p => p.available);
