@@ -58,6 +58,80 @@ const fallbackTemplates = {
         <a href="/" class="back-link">Voltar à coleção</a>
     </div>
 </body>
+</html>`,
+
+  index: (products) => `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleção Exclusiva | RARO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">RARO</h1>
+                <p class="tagline">Coleção 2025.</p>
+                <nav class="nav">
+                    <a href="/" class="nav-link active">Coleção</a>
+                    <a href="/logout" class="nav-link">Sair</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h2 class="hero-title">Coleção Atual</h2>
+                <p class="hero-subtitle">Peças selecionadas. Quantidades limitadas.</p>
+            </section>
+
+            <section class="products">
+                <div class="products-grid">
+                    ${products.map(product => `
+                        <article class="product-card">
+                            <div class="product-header">
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-origin">${product.origin}</p>
+                            </div>
+                            
+                            <div class="product-story">
+                                <p>${product.story}</p>
+                            </div>
+                            
+                            <div class="product-details">
+                                <div class="product-price">
+                                    <span class="currency">${product.currency}</span>
+                                    <span class="amount">${product.price.toLocaleString('pt-BR')}</span>
+                                </div>
+                                
+                                <div class="product-quantity">
+                                    <span class="quantity-label">Disponível:</span>
+                                    <span class="quantity-value">${product.quantity}</span>
+                                </div>
+                            </div>
+                            
+                            <a href="/product/${product.id}" class="product-link">Ver Detalhes</a>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2025 RARO.</p>
+        </div>
+    </footer>
+</body>
 </html>`
 };
 
@@ -148,8 +222,9 @@ app.get('/', (req, res) => {
     const availableProducts = products.filter(p => p.available);
     res.render('index', { products: availableProducts });
   } catch (error) {
-    console.error('Error rendering index:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    console.error('EJS render failed for index, using fallback HTML:', error);
+    const availableProducts = products.filter(p => p.available);
+    res.send(fallbackTemplates.index(availableProducts));
   }
 });
 
